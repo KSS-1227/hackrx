@@ -2508,3 +2508,40 @@ message: "API key not valid. Please pass a valid API key."
 2025-08-05 06:54:30 | SUCCESS  | app.services.embedding_service:initialize:61 - Embedding service initialized successfully. Dimension: 768
 2025-08-05 06:54:30 | INFO     | app.services.vector_store:initialize:45 - Loaded existing vector store with 204 chunks
 2025-08-05 06:54:30 | INFO     | main:lifespan:43 - System initialized successfully
+2025-08-05 14:11:52 | INFO     | app.utils.logging_config:setup_logging:39 - Logging configured successfully
+2025-08-05 14:11:52 | INFO     | main:lifespan:36 - Starting LLM Document Processing System...
+2025-08-05 14:11:52 | INFO     | app.services.embedding_service:__init__:39 - GEMINI_API_KEY found. Configuring the Gemini client.
+2025-08-05 14:11:52 | INFO     | app.services.vector_store:initialize:38 - Initializing vector store...
+2025-08-05 14:11:52 | INFO     | app.services.embedding_service:initialize:53 - Initializing Gemini embedding service with model: models/embedding-001
+2025-08-05 14:11:52 | INFO     | app.services.embedding_service:_test_gemini_connection:137 - Testing Gemini API connection...
+2025-08-05 14:11:55 | INFO     | app.services.embedding_service:_generate_gemini_embeddings:102 - Generated 1 Gemini embeddings.
+2025-08-05 14:11:55 | SUCCESS  | app.services.embedding_service:_test_gemini_connection:139 - ✅ Gemini API connection test successful.
+2025-08-05 14:11:55 | SUCCESS  | app.services.embedding_service:initialize:61 - Embedding service initialized successfully. Dimension: 768
+2025-08-05 14:11:55 | INFO     | app.services.vector_store:initialize:45 - Loaded existing vector store with 204 chunks
+2025-08-05 14:11:55 | INFO     | main:lifespan:43 - System initialized successfully
+2025-08-05 14:13:42 | INFO     | app.api.routes:process_documents:43 - Processing request with 1 documents and 1 questions
+2025-08-05 14:13:42 | INFO     | app.api.routes:process_documents:54 - Starting document processing...
+2025-08-05 14:13:42 | INFO     | app.services.document_processor:_process_single_document:73 - Downloading document from: C:\Users\sheri\AppData\Local\Temp\tmp7zmgdsig.pdf
+2025-08-05 14:13:42 | INFO     | app.services.document_processor:_process_single_document:77 - Extracting text from: tmp7zmgdsig.pdf
+2025-08-05 14:13:42 | INFO     | app.services.document_processor:_chunk_text:374 - Created 94 chunks from document tmp7zmgdsig.pdf
+2025-08-05 14:13:42 | INFO     | app.services.document_processor:_process_single_document:89 - Processed document tmp7zmgdsig.pdf in 0.31s, created 94 chunks
+2025-08-05 14:13:42 | INFO     | app.services.document_processor:process_documents:64 - Successfully processed 94 chunks from 1 documents
+2025-08-05 14:13:42 | INFO     | app.api.routes:process_documents:71 - Storing document embeddings...
+2025-08-05 14:13:42 | INFO     | app.services.vector_store:store_documents:56 - Storing 94 document chunks...
+2025-08-05 14:14:39 | ERROR    | app.services.embedding_service:generate_embeddings:82 - Failed to generate embeddings: Timeout of 60.0s exceeded, last exception: 503 failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.192.170:443: tcp handshaker shutdown
+2025-08-05 14:14:39 | ERROR    | app.api.routes:process_documents:108 - Error processing request after 57.21 seconds: Failed to store documents: Failed to generate embeddings: Timeout of 60.0s exceeded, last exception: 503 failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.192.170:443: tcp handshaker shutdown
+2025-08-05 14:20:34 | INFO     | main:lifespan:48 - Shutting down system...
+2025-08-05 14:20:35 | INFO     | app.services.vector_store:close:148 - Vector store closed successfully
+2025-08-05 14:22:37 | INFO     | app.utils.logging_config:setup_logging:39 - Logging configured successfully
+2025-08-05 14:22:37 | INFO     | main:lifespan:36 - Starting LLM Document Processing System...
+2025-08-05 14:22:37 | INFO     | app.services.embedding_service:__init__:39 - GEMINI_API_KEY found. Configuring the Gemini client.
+2025-08-05 14:22:37 | INFO     | app.services.vector_store:initialize:38 - Initializing vector store...
+2025-08-05 14:22:37 | INFO     | app.services.embedding_service:initialize:53 - Initializing Gemini embedding service with model: models/embedding-001
+2025-08-05 14:22:37 | INFO     | app.services.embedding_service:_test_gemini_connection:137 - Testing Gemini API connection...
+2025-08-05 14:22:38 | INFO     | app.services.embedding_service:_generate_gemini_embeddings:102 - Generated 1 Gemini embeddings.
+2025-08-05 14:22:38 | SUCCESS  | app.services.embedding_service:_test_gemini_connection:139 - ✅ Gemini API connection test successful.
+2025-08-05 14:22:38 | SUCCESS  | app.services.embedding_service:initialize:61 - Embedding service initialized successfully. Dimension: 768
+2025-08-05 14:22:38 | INFO     | app.services.vector_store:initialize:45 - Loaded existing vector store with 204 chunks
+2025-08-05 14:22:38 | INFO     | main:lifespan:43 - System initialized successfully
+2025-08-05 14:24:27 | INFO     | main:lifespan:48 - Shutting down system...
+2025-08-05 14:24:27 | INFO     | app.services.vector_store:close:148 - Vector store closed successfully
