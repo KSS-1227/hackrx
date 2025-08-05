@@ -1,0 +1,56 @@
+# Core API Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-multipart==0.0.6
+
+# Document Processing
+PyMuPDF==1.23.26
+pdfplumber==0.10.3
+python-docx==1.1.0
+python-pptx==0.6.23
+openpyxl==3.1.2
+
+# LLM and Embeddings
+google-generativeai==0.3.2
+langchain==0.1.5
+langchain-google-genai==0.0.8
+sentence-transformers==2.3.1
+transformers==4.37.2
+torch==2.2.0
+
+# Vector Database and Search
+
+chromadb==0.4.22
+numpy==1.26.3
+
+# Text Processing and NLP
+spacy==3.7.2
+nltk==3.8.1
+textstat==0.7.3
+beautifulsoup4==4.12.2
+
+# HTTP and File Handling
+httpx==0.26.0
+aiofiles==23.2.0
+requests==2.31.0
+
+# Authentication and Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.1
+
+# Database (Optional - for caching and metadata)
+sqlalchemy==2.0.25
+alembic==1.13.1
+
+# Logging and Monitoring
+loguru==0.7.2
+prometheus-client==0.19.0
+
+# Development and Testing
+pytest==7.4.4
+pytest-asyncio==0.23.4
+black==24.1.1
+flake8==7.0.0
