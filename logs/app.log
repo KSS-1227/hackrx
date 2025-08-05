@@ -2495,3 +2495,16 @@ message: "API key not valid. Please pass a valid API key."
 2025-08-05 05:35:22 | INFO     | app.services.vector_store:search:114 - Found 10 relevant chunks for query: Does this policy cover knee surgery, and what are ...
 2025-08-05 05:35:23 | ERROR    | app.services.llm_service:generate_answer:74 - Error generating answer: 404 models/gemini-2.0-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
 2025-08-05 05:35:23 | INFO     | app.api.routes:process_documents:97 - Request processed successfully in 5.19 seconds
+2025-08-05 06:53:52 | INFO     | main:lifespan:48 - Shutting down system...
+2025-08-05 06:53:52 | INFO     | app.services.vector_store:close:148 - Vector store closed successfully
+2025-08-05 06:54:29 | INFO     | app.utils.logging_config:setup_logging:39 - Logging configured successfully
+2025-08-05 06:54:29 | INFO     | main:lifespan:36 - Starting LLM Document Processing System...
+2025-08-05 06:54:29 | INFO     | app.services.embedding_service:__init__:39 - GEMINI_API_KEY found. Configuring the Gemini client.
+2025-08-05 06:54:29 | INFO     | app.services.vector_store:initialize:38 - Initializing vector store...
+2025-08-05 06:54:29 | INFO     | app.services.embedding_service:initialize:53 - Initializing Gemini embedding service with model: models/embedding-001
+2025-08-05 06:54:29 | INFO     | app.services.embedding_service:_test_gemini_connection:137 - Testing Gemini API connection...
+2025-08-05 06:54:30 | INFO     | app.services.embedding_service:_generate_gemini_embeddings:102 - Generated 1 Gemini embeddings.
+2025-08-05 06:54:30 | SUCCESS  | app.services.embedding_service:_test_gemini_connection:139 - ✅ Gemini API connection test successful.
+2025-08-05 06:54:30 | SUCCESS  | app.services.embedding_service:initialize:61 - Embedding service initialized successfully. Dimension: 768
+2025-08-05 06:54:30 | INFO     | app.services.vector_store:initialize:45 - Loaded existing vector store with 204 chunks
+2025-08-05 06:54:30 | INFO     | main:lifespan:43 - System initialized successfully
