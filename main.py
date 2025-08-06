@@ -13,32 +13,33 @@ from loguru import logger
 from app.api.routes import router as api_router
 from app.core.config import settings
 from app.core.exceptions import setup_exception_handlers
-# Use FAISS vector store instead of ChromaDB due to database schema issues
+
+# Use FAISS vector store for Render deployment (more reliable)
 from app.services.vector_store import VectorStoreService
-# Commented out ChromaDB import due to schema issues
-# try:
-#     from app.services.vector_store_chroma import VectorStoreService
-# except ImportError:
-#     # Fallback to FAISS if ChromaDB not available
-#     from app.services.vector_store import VectorStoreService
 
 # Load environment variables
 load_dotenv()
 
-# Setup logging
-from app.utils.logging_config import setup_logging
-setup_logging()
+# Setup logging with Render-friendly config
+from app.utils.logging_config import setup_render_logging
+setup_render_logging()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan manager"""
     # Startup
-    logger.info("Starting LLM Document Processing System...")
+    logger.info("Starting LLM Document Processing System on Render...")
     
-    # Initialize vector store
-    vector_store = VectorStoreService()
-    await vector_store.initialize()
-    app.state.vector_store = vector_store
+    # Initialize vector store with error handling
+    try:
+        vector_store = VectorStoreService()
+        await vector_store.initialize()
+        app.state.vector_store = vector_store
+        logger.info("Vector store initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize vector store: {e}")
+        # Continue without vector store for basic functionality
+        app.state.vector_store = None
     
     logger.info("System initialized successfully")
     
@@ -46,8 +47,11 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     logger.info("Shutting down system...")
-    if hasattr(app.state, 'vector_store'):
-        await app.state.vector_store.close()
+    if hasattr(app.state, 'vector_store') and app.state.vector_store:
+        try:
+            await app.state.vector_store.close()
+        except Exception as e:
+            logger.error(f"Error during shutdown: {e}")
 
 # Create FastAPI application
 app = FastAPI(
@@ -57,7 +61,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Add CORS middleware
+# Add CORS middleware with Render-friendly settings
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Configure appropriately for production
@@ -69,22 +73,31 @@ app.add_middleware(
 # Setup exception handlers
 setup_exception_handlers(app)
 
-# Include API routes without token verification
+# Include API routes
 app.include_router(
     api_router,
     prefix="/hackrx"
 )
 
+@app.get("/")
+async def root():
+    """Root endpoint for Render health checks"""
+    return {"message": "LLM Document Processing System", "status": "running"}
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "version": "1.0.0"}
+    return {"status": "healthy", "version": "1.0.0", "platform": "render"}
 
 if __name__ == "__main__":
+    # Get port from environment (Render sets this)
+    port = int(os.environ.get("PORT", settings.API_PORT))
+    
     uvicorn.run(
         "main:app",
-        host=settings.API_HOST,
-        port=settings.API_PORT,
-        reload=True,
-        log_level=settings.LOG_LEVEL.lower()
+        host="0.0.0.0",
+        port=port,
+        reload=False,  # Disable reload in production
+        log_level=settings.LOG_LEVEL.lower(),
+        workers=1  # Single worker for Render free tier
     )

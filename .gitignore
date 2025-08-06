@@ -1,3 +1,95 @@
-echo "venv/" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment (Render creates its own)
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Local logs only (not logs/ directory as Render may need it)
+*.log
+logs/*.log
+
+# Environment variables (keep .env.example if you have one)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Node modules (Render will install these)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local build outputs (Render will build these)
+# Note: Don't exclude dist/ or build/ as Render might need them
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local development files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local data directory (but keep structure for Render)
+data/vector_db/*.db
+data/vector_db/*.sqlite
+data/*.db
+data/*.sqlite
+
+# Render specific
+.render/
+
+# Keep important files for Render deployment
+!requirements.txt
+!package.json
+!package-lock.json
+!Dockerfile
+!render.yaml"venv/" 
+"__pycache__/" 
+"*.pyc" 

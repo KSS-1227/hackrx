@@ -2,8 +2,13 @@ services:
   - type: web
     name: hackrx
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host=0.0.0.0 --port=$PORT
+    buildCommand: "pip install -r requirements-render.txt"
+    startCommand: "uvicorn main:app --host=0.0.0.0 --port=$PORT"
     envVars:
       - key: GEMINI_API_KEY
         sync: false
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: MAX_DOCUMENT_SIZE_MB
+        value: "20"
+    healthCheckPath: /health
