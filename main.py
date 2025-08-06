@@ -20,15 +20,15 @@ from app.services.vector_store import VectorStoreService
 # Load environment variables
 load_dotenv()
 
-# Setup logging with Render-friendly config
-from app.utils.logging_config import setup_render_logging
-setup_render_logging()
+# Setup logging with production-friendly config
+from app.utils.logging_config import setup_logging
+setup_logging()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan manager"""
     # Startup
-    logger.info("Starting LLM Document Processing System on Render...")
+    logger.info("Starting LLM Document Processing System...")
     
     # Initialize vector store with error handling
     try:
@@ -81,16 +81,16 @@ app.include_router(
 
 @app.get("/")
 async def root():
-    """Root endpoint for Render health checks"""
+    """Root endpoint for platform health checks"""
     return {"message": "LLM Document Processing System", "status": "running"}
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "version": "1.0.0", "platform": "render"}
+    return {"status": "healthy", "version": "1.0.0"}
 
 if __name__ == "__main__":
-    # Get port from environment (Render sets this)
+    # Get port from environment (works with Render, Railway, Heroku, etc.)
     port = int(os.environ.get("PORT", settings.API_PORT))
     
     uvicorn.run(
@@ -99,5 +99,5 @@ if __name__ == "__main__":
         port=port,
         reload=False,  # Disable reload in production
         log_level=settings.LOG_LEVEL.lower(),
-        workers=1  # Single worker for Render free tier
+        workers=1  # Single worker for free tier deployments
     )

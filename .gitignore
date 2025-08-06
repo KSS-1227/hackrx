@@ -104,7 +104,4 @@ models/*.pth
 coverage.xml
 
 # Jupyter Notebook checkpoints
-.ipynb_checkpoints"venv/" 
-"venv/" 
-"__pycache__/" 
-"*.pyc" 
+.ipynb_checkpoints/ 
