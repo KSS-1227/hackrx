@@ -6,6 +6,7 @@ import os
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from loguru import logger
@@ -14,8 +15,8 @@ from app.api.routes import router as api_router
 from app.core.config import settings
 from app.core.exceptions import setup_exception_handlers
 
-# Use FAISS vector store for Render deployment (more reliable)
-from app.services.vector_store import VectorStoreService
+# Use ChromaDB vector store for Cloud Run deployment (more reliable)
+from app.services.vector_store_chroma import ChromaVectorStoreService as VectorStoreService
 
 # Load environment variables
 load_dotenv()
@@ -78,6 +79,9 @@ app.include_router(
     api_router,
     prefix="/hackrx"
 )
+
+# Mount static files for the frontend
+app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
 
 @app.get("/")
 async def root():

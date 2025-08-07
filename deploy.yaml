@@ -1,16 +1,35 @@
-services:
-  - type: web
-    name: hackrx
-    env: python
-    buildCommand: "pip install -r requirements-render.txt"
-    startCommand: "python main.py"
-    envVars:
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: LOG_LEVEL
-        value: "INFO"
-      - key: MAX_DOCUMENT_SIZE_MB
-        value: "20"
-      - key: PYTHON_VERSION
-        value: "3.11.0"
-    healthCheckPath: /health
+# deploy.yaml
+# This file is for Railway deployment configuration.
+
+build:
+  builder: NIXPACKS
+
+start:
+  command: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+healthcheck:
+  path: /health
+  interval: 30s
+  timeout: 10s
+  retries: 3
+
+# Environment variables can be set here or directly in Railway dashboard
+env:
+  PYTHONUNBUFFERED: "1"
+  # Add other environment variables as needed, e.g., for API keys or database connections
+  # OPENAI_API_KEY: "your_openai_api_key"
+  # DATABASE_URL: "your_database_url"
+
+# You can define services if your project has multiple components
+# services:
+#   - name: frontend
+#     type: static
+#     path: ./frontend/dist
+#     build:
+#       command: npm run build
+#       root: ./frontend
+
+# You can define volumes for persistent storage if needed
+# volumes:
+#   - name: my-data
+#     path: /app/data

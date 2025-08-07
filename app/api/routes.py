@@ -67,9 +67,10 @@ async def process_documents(
         if not processed_docs:
             raise HTTPException(status_code=400, detail="No documents could be processed")
         
-        # Step 2: Store embeddings in vector database
-        logger.info("Storing document embeddings...")
-        await vector_store.store_documents(processed_docs)
+        # Step 2: Store embeddings in vector database (if available)
+        if vector_store:
+            logger.info("Storing document embeddings...")
+            await vector_store.store_documents(processed_docs)
         
         # Step 3: Process queries
         logger.info("Processing queries...")
@@ -77,8 +78,12 @@ async def process_documents(
         
         for question in questions:
             try:
-                # Semantic search for relevant chunks
-                relevant_chunks = await vector_store.search(question, top_k=10)
+                if vector_store:
+                    # Semantic search for relevant chunks
+                    relevant_chunks = await vector_store.search(question, top_k=10)
+                else:
+                    # Fallback: use all document chunks (simple but works)
+                    relevant_chunks = processed_docs[:10]  # Limit to first 10 chunks
                 
                 # Generate answer using LLM
                 answer = await llm_service.generate_answer(
@@ -138,8 +143,9 @@ async def process_documents_detailed(
         if not processed_docs:
             raise HTTPException(status_code=400, detail="No documents could be processed")
         
-        # Store embeddings
-        await vector_store.store_documents(processed_docs)
+        # Store embeddings (if available)
+        if vector_store:
+            await vector_store.store_documents(processed_docs)
         
         # Process queries with detailed information
         answers = []
@@ -147,8 +153,12 @@ async def process_documents_detailed(
         
         for question in request.questions:
             try:
-                # Semantic search
-                relevant_chunks = await vector_store.search(question, top_k=10)
+                if vector_store:
+                    # Semantic search
+                    relevant_chunks = await vector_store.search(question, top_k=10)
+                else:
+                    # Fallback: use all document chunks
+                    relevant_chunks = processed_docs[:10]
                 
                 # Generate answer
                 answer = await llm_service.generate_answer(

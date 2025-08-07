@@ -10,6 +10,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Define the base URL for the backend API
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
   const handleFileChange = (e) => {
     setDocumentSource(e.target.files[0]);
   };
@@ -51,7 +54,7 @@ function App() {
         const formData = new FormData();
         formData.append('documents', documentSource);
         formData.append('questions', JSON.stringify(filteredQuestions));
-        response = await axios.post('http://localhost:8000/hackrx/run', formData, {
+        response = await axios.post(`${API_BASE_URL}/hackrx/run`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       } else { // 'link'
@@ -59,7 +62,7 @@ function App() {
           documents: [documentSource], // API expects a list of URLs
           questions: filteredQuestions,
         };
-        response = await axios.post('http://localhost:8000/hackrx/run/detailed', payload);
+        response = await axios.post(`${API_BASE_URL}/hackrx/run/detailed`, payload);
       }
       setAnswers(response.data.answers || []);
     } catch (err) {
